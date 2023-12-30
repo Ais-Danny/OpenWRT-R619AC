@@ -1,0 +1,36 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main  # 根据你的分支设置触发条件
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up SSH Key
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential  # 根据你的需要安装其他依赖
+
+    - name: Build
+      run: |
+        # 在这里添加你的构建命令
+        # 例如：make
+
+    - name: Custom Operations
+      run: |
+        # 在这里添加你自定义的操作，可以使用 SSH 连接
+        # 例如：ssh user@your-server "command"
